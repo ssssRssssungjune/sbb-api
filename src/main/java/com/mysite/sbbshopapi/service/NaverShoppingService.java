@@ -1,8 +1,6 @@
 package com.mysite.sbbshopapi.service;
 
-import java.util.List;
-import java.util.Map;
-
+import com.mysite.sbbshopapi.dto.Product;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -11,7 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.mysite.sbbshopapi.dto.Product;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class NaverShoppingService {
@@ -31,7 +30,10 @@ public class NaverShoppingService {
 
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<Map> response = restTemplate.exchange(
-                url + "?query=" + query, HttpMethod.GET, entity, Map.class
+                url + "?query=" + query,
+                HttpMethod.GET,
+                entity,
+                Map.class
         );
 
         return (List<Product>) response.getBody().get("items");

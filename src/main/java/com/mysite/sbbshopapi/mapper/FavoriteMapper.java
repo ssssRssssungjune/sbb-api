@@ -1,13 +1,12 @@
 package com.mysite.sbbshopapi.mapper;
 
-import java.util.List;
-
+import com.mysite.sbbshopapi.dto.Favorite;
 import org.apache.ibatis.annotations.Mapper;
 
-import com.mysite.sbbshopapi.dto.Favorite;
+import java.util.List;
 
 @Mapper
 public interface FavoriteMapper {
     void insertFavorite(Favorite favorite);
-    List<Favorite> selectFavoritesByUserId(int userId);
+    List<Favorite> selectFavoritesByUserId(Long userId);
 }

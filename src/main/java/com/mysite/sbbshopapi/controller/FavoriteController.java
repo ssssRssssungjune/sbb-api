@@ -5,6 +5,7 @@ import com.mysite.sbbshopapi.dto.Product;
 import com.mysite.sbbshopapi.service.FavoriteService;
 import com.mysite.sbbshopapi.service.NaverShoppingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,11 +15,14 @@ import java.util.List;
 @RequestMapping("/api")
 public class FavoriteController {
 
-    @Autowired
-    private NaverShoppingService naverShoppingService;
+    private final NaverShoppingService naverShoppingService;
+    private final FavoriteService favoriteService;
 
     @Autowired
-    private FavoriteService favoriteService;
+    public FavoriteController(NaverShoppingService naverShoppingService, FavoriteService favoriteService) {
+        this.naverShoppingService = naverShoppingService;
+        this.favoriteService = favoriteService;
+    }
 
     @GetMapping("/search")
     public List<Product> searchProducts(@RequestParam String query) {
@@ -28,11 +32,11 @@ public class FavoriteController {
     @PostMapping("/favorites")
     public ResponseEntity<String> addFavorite(@RequestBody Favorite favorite) {
         favoriteService.addFavorite(favorite);
-        return ResponseEntity.ok("Added to favorites");
+        return new ResponseEntity<>("Added to favorites", HttpStatus.CREATED);
     }
 
     @GetMapping("/favorites")
-    public List<Favorite> getFavorites(@RequestParam int userId) {
+    public List<Favorite> getFavorites(@RequestParam Long userId) {
         return favoriteService.getFavoritesByUserId(userId);
     }
 }
